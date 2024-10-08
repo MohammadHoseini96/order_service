@@ -1,0 +1,24 @@
+[tool.black]
+line-length = 121
+target-version = ['py312']
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bitcoin_forks_withdrawal"
+description = "A project responsible to process order transactions."
+readme = "README.md"
+license = {text = "MIT License"}
+classifiers = [
+    "Framework :: Django",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    'importlib-metadata; python_version>="3.12"',
+]
+dynamic = ["version"]
+
+[tool.setuptools]
+package-dir = {"" = "."}
