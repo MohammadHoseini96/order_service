@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from .services import PurchaseService
-from .repositories import UserRepository, TokenRepository, OrderRepository, OutboxRepository
+from .repositories import UserRepository, TokenRepository, OrderRepository, OutboxRepository, WalletRepository
 from .serializers import OrderSerializer
 from decimal import Decimal
 from orders.tasks import aggregate_buy_orders_from_exchange
@@ -14,8 +14,9 @@ userRepo = UserRepository()
 tokenRepo = TokenRepository()
 orderRepo = OrderRepository()
 outboxRepo = OutboxRepository()
+walletRep = WalletRepository()
 
-purchaseService = PurchaseService(userRepo, tokenRepo, orderRepo, outboxRepo)
+purchaseService = PurchaseService(userRepo, tokenRepo, orderRepo, outboxRepo, walletRep)
 
 
 class OrdersViewSet(viewsets.ViewSet):

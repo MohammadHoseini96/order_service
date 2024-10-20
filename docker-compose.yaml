@@ -43,22 +43,22 @@ services:
     networks:
       - app-network
 
-  celery-beat:
-    container_name: beat
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: celery -A order_service beat --loglevel=info
-    environment:
-      - ENTRYPOINT=celery
-    env_file:
-      - ./.env
-    depends_on:
-      - redis
-      - postgres
-      - celery
-    networks:
-      - app-network
+#  celery-beat:
+#    container_name: beat
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    command: celery -A order_service beat --loglevel=info
+#    environment:
+#      - ENTRYPOINT=celery
+#    env_file:
+#      - ./.env
+#    depends_on:
+#      - redis
+#      - postgres
+#      - celery
+#    networks:
+#      - app-network
 
   django:
     container_name: django

@@ -13,18 +13,19 @@ from sentry_sdk import capture_exception
 '''
 @app.task(name="aggregate_buy_orders_from_exchange")
 def aggregate_buy_orders_from_exchange(symbol, minimum_value):
+    token = Token.objects.get(symbol=symbol)
+
     with transaction.atomic():
-        token = Token.objects.filter(symbol=symbol).first()
-        # token = Token.objects.get(symbol=symbol)
-        orders = Order.objects.select_for_update().filter(token= token, is_aggregated=False)
+        # token = Token.objects.filter(symbol=symbol).first()
+        orders = Order.objects.select_for_update().filter(token=token, is_aggregated=False)
 
         # satisfying minimum order price condition
         total_value = sum(orders.values_list('price_value', flat=True))
+
         # amount to buy in total from the external exchange
         total_amount = sum(orders.values_list('amount', flat=True))
 
-        # release the lock and return
-        if total_value < minimum_value:
+        if total_value > minimum_value:
             try:
                 external_exchange_utils.buy_from_exchange(token.symbol, total_amount, token.price_unit)
                 orders.update(is_aggregated=True)

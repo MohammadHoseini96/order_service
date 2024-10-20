@@ -142,12 +142,12 @@ REDIS_OM_URL = f"redis://{REDIS_USERNAME}:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_P
 # ---------- CELERY ----------
 CELERY_BROKER_URL = f"redis://{REDIS_USERNAME}:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/{REDIS_CELERY_DB}"
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
-CELERY_BEAT_SCHEDULE = {
-    'check-and-combine-orders-every-minute': {
-        'task': 'orders.tasks.check_and_combine_orders',
-        'schedule': 60,
-    },
-}
+# CELERY_BEAT_SCHEDULE = {
+#     'check-and-combine-orders-every-minute': {
+#         'task': 'orders.tasks.check_and_combine_orders',
+#         'schedule': 60,
+#     },
+# }
 CELERY_TIMEZONE = TIME_ZONE
 
 

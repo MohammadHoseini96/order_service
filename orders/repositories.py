@@ -8,7 +8,7 @@ class UserRepository:
         return User.objects.get(id=user_id)
 
     def get_updatable_user_by_id(self, user_id):
-        return User.objects.select_for_update().get(id=user_id)
+        return User.objects.select_for_update().filter(id=user_id)
 
     def create_simple_user(self, username, password):
         return User.objects.create(username=username, password=password)
@@ -17,6 +17,12 @@ class WalletRepository:
 
     def get_wallet_by_id(self, wallet_id):
         return Wallet.objects.get(id=wallet_id)
+
+    def get_wallet_by_user(self, user):
+        return Wallet.objects.get(user=user)
+
+    def get_updatable_wallet_by_user(self, user):
+        return Wallet.objects.select_for_update().filter(user=user)
 
     def create(self, user, balance):
         return Wallet.objects.create(user=user, balance=balance)
@@ -36,6 +42,9 @@ class OrderRepository:
 
     def create(self, user, token, amount, value):
         return Order.objects.create(user=user, token=token, amount=amount, price_value=value)
+
+    def get_not_aggregated_orders(self):
+        return Order.objects.filter(is_aggregated=False)
 
 class OutboxRepository:
 
